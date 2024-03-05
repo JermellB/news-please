@@ -167,7 +167,7 @@ class UrlExtractor(object):
         #          if not re.search(domain, splitted_url[index]) is None][0]
         for index in range(len(splitted_url)):
             if not re.search(domain, splitted_url[index]) is None:
-                if splitted_url[-1] is "":
+                if splitted_url[-1] == "":
                     splitted_url = splitted_url[index + 1:-2]
                 else:
                     splitted_url = splitted_url[index + 1:-1]
