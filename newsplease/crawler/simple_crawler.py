@@ -7,6 +7,7 @@ import requests
 import urllib3
 
 from .response_decoder import decode_response
+from security import safe_requests
 
 MAX_FILE_SIZE = 20000000
 MIN_FILE_SIZE = 10
@@ -48,7 +49,7 @@ class SimpleCrawler(object):
         try:
             # read by streaming chunks (stream=True, iter_content=xx)
             # so we can stop downloading as soon as MAX_FILE_SIZE is reached
-            response = requests.get(url, timeout=timeout, verify=False, allow_redirects=True, headers=HEADERS)
+            response = safe_requests.get(url, timeout=timeout, verify=False, allow_redirects=True, headers=HEADERS)
         except (requests.exceptions.MissingSchema, requests.exceptions.InvalidURL):
             LOGGER.error('malformed URL: %s', url)
         except requests.exceptions.TooManyRedirects:

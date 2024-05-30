@@ -1,14 +1,15 @@
+from security import safe_requests
+
 try:
-    import urllib2
+    pass
 except ImportError:
-    import urllib.request as urllib2
+    pass
 import csv
 import logging
 import os
 import re
 
 import io
-import requests
 import scrapy
 import zipfile
 
@@ -60,7 +61,7 @@ class GdeltCrawler(scrapy.Spider):
         if match:
             last_update_zip_url = match.group(1)
             # fetch zip file
-            r = requests.get(last_update_zip_url)
+            r = safe_requests.get(last_update_zip_url)
             # unzip
             z = zipfile.ZipFile(io.BytesIO(r.content))
             extracted = z.namelist()
