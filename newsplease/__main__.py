@@ -15,6 +15,7 @@ from elasticsearch import Elasticsearch
 from scrapy.utils.log import configure_logging
 
 from newsplease.pipeline.pipelines import RedisStorageClient
+from security import safe_command
 
 cur_path = os.path.dirname(os.path.realpath(__file__))
 par_path = os.path.dirname(cur_path)
@@ -267,7 +268,7 @@ class NewsPleaseLauncher(object):
 
         self.log.debug("Calling Process: %s", call_process)
 
-        crawler = Popen(call_process,
+        crawler = safe_command.run(Popen, call_process,
                         stderr=None,
                         stdout=None)
         crawler.communicate()
