@@ -130,11 +130,11 @@ class RssCrawler(NewspleaseSpider, scrapy.Spider):
         """
         redirect_url = UrlExtractor.follow_redirects(url=url, check_certificate=check_certificate)
 
-        response = get(url=redirect_url, verify=check_certificate)
+        response = get(url=redirect_url, verify=check_certificate, timeout=60)
         scrapy_response = TextResponse(url=redirect_url, body=response.text.encode())
 
         rss_url = UrlExtractor.get_rss_url(scrapy_response)
-        rss_content = get(url=rss_url, verify=check_certificate).text
+        rss_content = get(url=rss_url, verify=check_certificate, timeout=60).text
         rss_response = XmlResponse(url=rss_url, body=rss_content, encoding="utf-8")
 
         urls_to_scan = [

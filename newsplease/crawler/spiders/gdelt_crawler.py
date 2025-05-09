@@ -62,7 +62,7 @@ class GdeltCrawler(NewspleaseSpider, scrapy.Spider):
         if match:
             last_update_zip_url = match.group(1)
             # fetch zip file
-            r = requests.get(last_update_zip_url)
+            r = requests.get(last_update_zip_url, timeout=60)
             # unzip
             z = zipfile.ZipFile(io.BytesIO(r.content))
             extracted = z.namelist()
