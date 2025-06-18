@@ -1,8 +1,8 @@
-from requests import get
 from scrapy.http import TextResponse, XmlResponse
 
 from newsplease.crawler.spiders.newsplease_spider import NewspleaseSpider
 from newsplease.helper_classes.url_extractor import UrlExtractor
+from security import safe_requests
 
 try:
     import urllib2
@@ -130,11 +130,11 @@ class RssCrawler(NewspleaseSpider, scrapy.Spider):
         """
         redirect_url = UrlExtractor.follow_redirects(url=url, check_certificate=check_certificate)
 
-        response = get(url=redirect_url, verify=check_certificate)
+        response = safe_requests.get(url=redirect_url, verify=check_certificate)
         scrapy_response = TextResponse(url=redirect_url, body=response.text.encode())
 
         rss_url = UrlExtractor.get_rss_url(scrapy_response)
-        rss_content = get(url=rss_url, verify=check_certificate).text
+        rss_content = safe_requests.get(url=rss_url, verify=check_certificate).text
         rss_response = XmlResponse(url=rss_url, body=rss_content, encoding="utf-8")
 
         urls_to_scan = [

@@ -16,10 +16,10 @@ from urllib.parse import urlparse
 import boto3
 import botocore
 from dateutil import parser
-import requests
 from scrapy.utils.log import configure_logging
 
 from ..crawler.commoncrawl_extractor import CommonCrawlExtractor
+from security import safe_requests
 
 __author__ = "Felix Hamborg"
 __copyright__ = "Copyright 2017"
@@ -188,7 +188,7 @@ def __get_remote_index(warc_files_start_date=None, warc_files_end_date=None):
             month = date.strftime('%m')
             url = '%scrawl-data/CC-NEWS/%s/%s/warc.paths.gz' % (__cc_base_url, year, month)
             __logger.debug('Fetching WARC paths listing %s', url)
-            response = requests.get(url)
+            response = safe_requests.get(url)
             if response:
                 objects += gzip.decompress(response.content).decode('ascii').strip().split('\n')
             else:
