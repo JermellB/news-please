@@ -57,7 +57,7 @@ class SimpleCrawler(object):
             # read by streaming chunks (stream=True, iter_content=xx)
             # so we can stop downloading as soon as MAX_FILE_SIZE is reached
             response = requests.get(
-                url, verify=False, allow_redirects=True, **request_args)
+                url, verify=True, allow_redirects=True, **request_args)
         except (requests.exceptions.MissingSchema, requests.exceptions.InvalidURL):
             LOGGER.error("malformed URL: %s", url)
         except requests.exceptions.TooManyRedirects:
