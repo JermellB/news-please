@@ -188,7 +188,7 @@ def __get_remote_index(warc_files_start_date=None, warc_files_end_date=None):
             month = date.strftime('%m')
             url = '%scrawl-data/CC-NEWS/%s/%s/warc.paths.gz' % (__cc_base_url, year, month)
             __logger.debug('Fetching WARC paths listing %s', url)
-            response = requests.get(url)
+            response = requests.get(url, timeout=60)
             if response:
                 objects += gzip.decompress(response.content).decode('ascii').strip().split('\n')
             else:
